@@ -1,0 +1,10 @@
+# ConnectOnion
+.env
+.co/keys/
+.co/cache/
+.co/logs/
+.co/history/
+co-vibecoding-principles-docs-contexts-all-in-one.md
+*.py[cod]
+__pycache__/
+todo.md

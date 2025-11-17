@@ -1,0 +1,15 @@
+[project]
+name = "my-agent"
+created = "2025-11-17T10:43:42.551975"
+framework_version = "0.4.2"
+
+[cli]
+version = "1.0.0"
+command = "co create my-agent"
+template = "minimal"
+
+[agent]
+algorithm = "ed25519"
+default_model = "co/o4-mini"
+max_iterations = 10
+created_at = "2025-11-17T10:43:42.551981"
