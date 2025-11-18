@@ -1,29 +1,68 @@
-"""Minimal ConnectOnion agent with a simple calculator tool."""
+"""
+ResearchScholar AI - Multi-Agent Scholarship Assistant built with ConnectOnion.
 
-from connectonion import Agent
+Run `python agent.py --profile profiles/sample_profile.json --query "..."`.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any, Dict
+
+from research_scholar.models import StudentProfile
+from research_scholar.orchestrator import ResearchScholarOrchestrator
 
 
-def calculator(expression: str) -> float:
-    """Simple calculator that evaluates arithmetic expressions.
-
-    Args:
-        expression: A mathematical expression (e.g., "5*5", "10+20")
-
-    Returns:
-        The result of the calculation
-    """
-    # Note: eval() is used for simplicity. For production, use a safer parser.
-    return eval(expression)
+def load_profile(profile_path: Path) -> StudentProfile:
+    with profile_path.open() as fh:
+        data: Dict[str, Any] = json.load(fh)
+    return StudentProfile.from_dict(data)
 
 
-# Create agent with calculator tool
-agent = Agent(
-    name="calculator-agent", 
-    system_prompt="pls use the calculator tool to answer math questions", # you can also pass a markdown file like system_prompt="path/to/your_markdown_file.md"
-    tools=[calculator], # tools can be python classes or functions
-    model="co/gpt-5" # co/gpt-5 is hosted by OpenOnion, you can write your api key to .env file and change this to "gpt-5"
-)
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run the ResearchScholar pipeline.")
+    parser.add_argument(
+        "--profile",
+        type=Path,
+        default=Path("profiles/sample_profile.json"),
+        help="Path to a JSON file containing the student profile.",
+    )
+    parser.add_argument(
+        "--query",
+        type=str,
+        required=False,
+        default="scholarships for women in computer science building social impact startups",
+        help="Discovery query sent to the Seeker agent.",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=5,
+        help="Number of scholarships returned from the Seeker agent.",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Optional path to save the JSON report.",
+    )
+    return parser.parse_args()
 
-# Run the agent
-result = agent.input("what is the result of 5*5")
-print(result)
+
+def main() -> None:
+    args = parse_args()
+    profile = load_profile(args.profile)
+    orchestrator = ResearchScholarOrchestrator()
+    result = orchestrator.run(query=args.query, profile=profile, limit=args.limit)
+
+    print("=== ResearchScholar Report ===")
+    print(json.dumps(result, indent=2))
+
+    if args.output:
+        args.output.write_text(json.dumps(result, indent=2))
+        print(f"\nReport saved to {args.output.resolve()}")
+
+
+if __name__ == "__main__":
+    main()

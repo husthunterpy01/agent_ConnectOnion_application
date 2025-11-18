@@ -1,56 +1,45 @@
-# Minimal ConnectOnion Agent
+# ResearchScholar Agent (`my-agent/`)
 
-The simplest way to get started with ConnectOnion. A basic calculator agent that demonstrates:
-- Creating an agent with a simple tool
-- Interactive conversations
-- Using both `agent.input()` and `llm_do()` functions
+This package hosts the production-ready implementation of the ResearchScholar multi-agent swarm described in the root `README.md`.
 
-## Quick Start
+## Components
+
+- `agent.py` – CLI entry point; wires args → orchestrator → JSON report.
+- `research_scholar/` – Core package with datamodels, data adapters, tools, agent builders, and orchestrator.
+- `profiles/` – Sample student profiles for quick demos.
+
+## Setup
 
 ```bash
-# Initialize project (if not already done)
-co init --template minimal
-
-# Run the agent
-python agent.py
+python -m venv .venv && source .venv/bin/activate
+pip install -r ../requirements.txt
+cp .env.example .env   # create if missing; add API key
 ```
 
-## What's Inside
+## Running the pipeline
 
-**`agent.py`** - A minimal agent with:
-- Simple calculator tool (add, subtract, multiply, divide)
-- Interactive conversation loop
-- Examples of both agent and direct LLM usage
-
-## Example Interaction
-
-```python
-# The agent can use its calculator tool
-agent.input("What is 25 * 4?")
-# → The calculator will compute: 100
-
-# Direct LLM call without tools
-llm_do("What is ConnectOnion?")
-# → Quick response without agent overhead
+```bash
+python agent.py \
+  --profile profiles/sample_profile.json \
+  --query "scholarships for women in computer science building social impact startups" \
+  --output report.json
 ```
 
-## Environment Variables
+The command prints the structured swarm report and (optionally) writes it to disk.
 
-The `.env` file is created automatically during `co init`. It includes:
+## Customizing
 
-- `OPENONION_API_KEY` - Managed keys with `co/` prefix (recommended)
-- Or `OPENAI_API_KEY` - Your own OpenAI API key
+- **Profiles**: Drop additional JSON files in `profiles/` and point `--profile` to them.
+- **Seeker data sources**: Replace the mock catalog in `research_scholar/data.py` with API fetchers or database queries.
+- **Ranking logic**: Tune weights or plug in ML models in `research_scholar/tools.py::ranker_score_tool`.
+- **Notification hooks**: Extend `tracker_schedule_tool` to emit Slack/Email/webhook reminders tied to each milestone.
 
-## Next Steps
+## Testing
 
-**Ready for more?** Try these templates:
+From the repo root:
 
-- `co init --template playwright` - Browser automation with Playwright
-- `co init --template web-research` - Web search and research tools
-- `co init --template meta-agent` - Multi-agent orchestration
+```bash
+pytest tests/test_orchestrator.py
+```
 
-## Learn More
-
-- [Documentation](https://docs.connectonion.com)
-- [Examples](https://github.com/openonion/connectonion/tree/main/examples)
-- [Discord Community](https://discord.gg/4xfD9k8AUF)
+The suite ensures the orchestration path (Seeker→Verifier) returns all expected payloads for the reference student profile.

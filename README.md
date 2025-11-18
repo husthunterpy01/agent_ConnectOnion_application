@@ -116,3 +116,78 @@ Orchestrator → User with ranked results
 ```
 
 ---
+
+## Quick Start
+
+1. **Install dependencies**
+   ```bash
+   cd /home/martin/agent_ConnectOnion_application
+   python -m venv .venv && source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+2. **Configure API keys**
+   - Copy `.env.example` to `.env` inside `my-agent/` (or create it manually).
+   - Add either `OPENONION_API_KEY=co/XXXX` or your `OPENAI_API_KEY=sk-XXXX`.
+3. **Run the ResearchScholar agent**
+   ```bash
+   cd my-agent
+   python agent.py \
+     --profile profiles/sample_profile.json \
+     --query "scholarships for women in computer science building social impact startups"
+   ```
+4. **Optional**: save structured output
+   ```bash
+   python agent.py --output report.json
+   ```
+
+---
+
+## Repository Layout
+
+```
+agent_ConnectOnion_application/
+├── README.md               # Product brief & architecture
+├── requirements.txt        # Python dependencies
+├── my-agent/               # ConnectOnion implementation
+│   ├── agent.py            # CLI entry point
+│   ├── profiles/           # Sample student profiles
+│   └── research_scholar/   # Core package (models, tools, orchestrator)
+└── tests/                  # Pytest suite validating the pipeline
+```
+
+---
+
+## Feature Coverage vs README
+
+| Requirement                               | Implementation Detail                              |
+|-------------------------------------------|----------------------------------------------------|
+| Multi-agent swarm (Seeker→Verifier)       | `research_scholar.tools` + `research_scholar.agents`|
+| Orchestrator that routes between agents   | `ResearchScholarOrchestrator.run()`                |
+| Scholarship discovery & matching pipeline | `seeker_search_tool`, `matcher_filter_tool`        |
+| Ranking by probability & effort           | `ranker_score_tool` scoring heuristic              |
+| Application material drafting             | `writer_materials_tool`                            |
+| Deadline tracking & reminders             | `tracker_schedule_tool`                            |
+| QA / completeness verification            | `verifier_checklist_tool`                          |
+
+---
+
+## Testing
+
+Run the automated checks anytime you modify the pipeline:
+
+```bash
+pytest
+```
+
+The suite validates that every stage (Seeker→Verifier) returns structured data for the provided reference profile.
+
+---
+
+## Extending the System
+
+- **Swap in real data sources**: Implement adapters in `research_scholar/data.py` that fetch from APIs (Fastweb, College Board, etc.) and inject them into the seeker tool.
+- **Plug in ML rankers**: Replace `ranker_score_tool` with a model-backed scoring service; expose weight overrides via CLI flags.
+- **Calendar/webhook integration**: Extend `tracker_schedule_tool` to push reminders to Google Calendar, Slack, or email.
+- **Conversation layer**: Use the instantiated ConnectOnion `Agent` objects in `research_scholar/agents.py` to hold stateful chats with students for profile enrichment.
+
+---
