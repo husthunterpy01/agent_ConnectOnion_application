@@ -1,0 +1,283 @@
+{
+  "query": "scholarships for women in computer science",
+  "profile": {
+    "name": "Martin Dang",
+    "email": "martindang2801@gmail.com",
+    "academic_level": "Graduate",
+    "gpa": 3.74,
+    "major": "Information Technology",
+    "location": "Hanoi, Vietnam",
+    "citizenship": "Unknown",
+    "interests": [
+      "Machine Learning",
+      "AI Model Design",
+      "Software Engineering",
+      "Infrastructure Development"
+    ],
+    "demographics": {
+      "gender": "Unknown",
+      "first_generation": "Unknown",
+      "ethnicity": "Unknown",
+      "socioeconomic_status": "Unknown",
+      "other": "Unknown"
+    },
+    "skills": [
+      "C#",
+      "Python",
+      "Java",
+      "Javascript",
+      "SQL Server",
+      "MySQL",
+      "MongoDB",
+      "OpenSearch",
+      "ASP.NET",
+      "FastAPI",
+      "FlaskAPI",
+      "ReactJS",
+      "Pytorch",
+      "Scikit-learn",
+      "Tensorflow",
+      "Azure",
+      "AWS",
+      "Docker",
+      "Spark",
+      "Kafka"
+    ],
+    "goals": "To pursue a career as a Machine Learning Engineer, specializing in infrastructure development and model optimization.",
+    "experiences": [
+      "Developed high-performance RESTful APIs for a US-based pension payroll platform, managing 500 simultaneous users.",
+      "Boosted unit test coverage of the payroll application from 42% to over 80%.",
+      "Worked on data processing for water factory anomaly detection using Graph Neural Network.",
+      "Conducted research on beehive audio identification, improving accuracy for bee sound classification."
+    ]
+  },
+  "seeker": {
+    "scholarships": [
+      {
+        "id": "RS-003",
+        "title": "Open Source Impact Award",
+        "sponsor": "Code4Good",
+        "amount": 5000,
+        "currency": "USD",
+        "deadline": "2024-12-10",
+        "eligibility": {
+          "min_gpa": 3.0,
+          "majors": [
+            "computer science",
+            "software engineering"
+          ],
+          "citizenship": [
+            "Any"
+          ],
+          "location": [
+            "Any"
+          ],
+          "demographics": []
+        },
+        "effort_level": "Low",
+        "description": "Recognizes students maintaining high-impact OSS projects.",
+        "url": "https://example.org/scholarships/rs-003"
+      }
+    ]
+  },
+  "matcher": {
+    "eligibility": [
+      {
+        "scholarship": {
+          "id": "RS-003",
+          "title": "Open Source Impact Award",
+          "sponsor": "Code4Good",
+          "amount": 5000,
+          "currency": "USD",
+          "deadline": "2024-12-10",
+          "eligibility": {
+            "min_gpa": 3.0,
+            "majors": [
+              "computer science",
+              "software engineering"
+            ],
+            "citizenship": [
+              "Any"
+            ],
+            "location": [
+              "Any"
+            ],
+            "demographics": []
+          },
+          "effort_level": "Low",
+          "description": "Recognizes students maintaining high-impact OSS projects.",
+          "url": "https://example.org/scholarships/rs-003"
+        },
+        "fit_summary": "Rejected: Major not in eligible list"
+      }
+    ]
+  },
+  "ranker": {
+    "ranked": [
+      {
+        "scholarship": {
+          "id": "RS-003",
+          "title": "Open Source Impact Award",
+          "sponsor": "Code4Good",
+          "amount": 5000,
+          "currency": "USD",
+          "deadline": "2024-12-10",
+          "eligibility": {
+            "min_gpa": 3.0,
+            "majors": [
+              "computer science",
+              "software engineering"
+            ],
+            "citizenship": [
+              "Any"
+            ],
+            "location": [
+              "Any"
+            ],
+            "demographics": []
+          },
+          "effort_level": "Low",
+          "description": "Recognizes students maintaining high-impact OSS projects.",
+          "url": "https://example.org/scholarships/rs-003"
+        },
+        "score": 75,
+        "reasoning": "Fit penalty 20, amount 5, effort 20, urgency 10"
+      }
+    ]
+  },
+  "writer": {
+    "materials": [
+      {
+        "scholarship_id": "RS-003",
+        "essay_outline": "1. Hook: Martin Dang's mission in Information Technology\n2. Impact: Highlight flagship project delivering community impact\n3. Alignment: Why Code4Good accelerates the mission\n4. Future plan: Milestones funded by $5000",
+        "cv_bullets": [
+          "Led Machine Learning initiative delivering measurable outcomes.",
+          "Built open-source tool adopted by 5+ campuses.",
+          "Mentored first-gen students on scholarship readiness."
+        ],
+        "lor_prompt": "Describe Martin Dang's leadership in Developed high-performance RESTful APIs for a US-based pension payroll platform, managing 500 simultaneous users. and impact on underrepresented communities."
+      }
+    ]
+  },
+  "tracker": {
+    "schedules": [
+      {
+        "scholarship_id": "RS-003",
+        "deadline": "2024-12-10",
+        "starts_in_days": -345,
+        "milestones": [
+          {
+            "label": "Confirm eligibility + requirements",
+            "due": "2024-11-12"
+          },
+          {
+            "label": "Draft essays & CV updates",
+            "due": "2024-11-19"
+          },
+          {
+            "label": "Secure LOR commitments",
+            "due": "2024-11-26"
+          },
+          {
+            "label": "Final review & submit",
+            "due": "2024-12-07"
+          }
+        ]
+      }
+    ]
+  },
+  "verifier": {
+    "qa_reports": [
+      {
+        "scholarship_id": "RS-003",
+        "ready": true,
+        "missing": [],
+        "notes": "Ready for submission."
+      }
+    ]
+  },
+  "universities": {
+    "recommendations": [
+      {
+        "university": {
+          "id": "UNI-003",
+          "name": "Global Social Impact College",
+          "location": "Global (Remote)",
+          "programs": [
+            "Product Design",
+            "Public Policy",
+            "AI Ethics"
+          ],
+          "demographics": [
+            "any",
+            "first-generation"
+          ],
+          "highlights": [
+            "Remote-first bachelor's with community residencies",
+            "Scholarships for open-source maintainers",
+            "Partner accelerators for social impact startups"
+          ],
+          "website": "https://example.edu/gsic",
+          "tuition_support": "Sliding scale + stipend for OSS leaders"
+        },
+        "score": 85,
+        "fit_reasons": [
+          "Location alignment",
+          "Demographic programs for any"
+        ]
+      },
+      {
+        "university": {
+          "id": "UNI-001",
+          "name": "Aurora Institute of Technology",
+          "location": "Australia",
+          "programs": [
+            "Computer Science",
+            "Human-Centered AI",
+            "Software Engineering"
+          ],
+          "demographics": [
+            "women",
+            "first-generation",
+            "rural"
+          ],
+          "highlights": [
+            "Women in Emerging Tech full-ride scholarship",
+            "AI for social good research lab with community grants",
+            "Mentorship circle for first-generation founders"
+          ],
+          "website": "https://example.edu/aurora-tech",
+          "tuition_support": "Full tuition + $10K research stipend"
+        },
+        "score": 55,
+        "fit_reasons": [
+          "Interest-aligned program tracks"
+        ]
+      },
+      {
+        "university": {
+          "id": "UNI-002",
+          "name": "Pacifica University",
+          "location": "New Zealand",
+          "programs": [
+            "Data Science",
+            "International Relations"
+          ],
+          "demographics": [
+            "women",
+            "pacific-islander"
+          ],
+          "highlights": [
+            "Leadership incubator for women tackling climate justice",
+            "Co-op placements with APAC NGOs",
+            "Dedicated funding for first-generation students"
+          ],
+          "website": "https://example.edu/pacifica",
+          "tuition_support": "75% tuition waiver + paid co-op"
+        },
+        "score": 50,
+        "fit_reasons": []
+      }
+    ]
+  }
+}

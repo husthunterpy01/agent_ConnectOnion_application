@@ -1,0 +1,51 @@
+{
+  "name": "Martin Dang",
+  "email": "martindang2801@gmail.com",
+  "academic_level": "Graduate",
+  "gpa": 3.74,
+  "major": "Information Technology",
+  "location": "Hanoi, Vietnam",
+  "citizenship": "Unknown",
+  "interests": [
+    "Machine Learning",
+    "AI Model Design",
+    "Software Engineering",
+    "Infrastructure Development"
+  ],
+  "demographics": {
+    "gender": "Unknown",
+    "first_generation": "Unknown",
+    "ethnicity": "Unknown",
+    "socioeconomic_status": "Unknown",
+    "other": "Unknown"
+  },
+  "skills": [
+    "C#",
+    "Python",
+    "Java",
+    "Javascript",
+    "SQL Server",
+    "MySQL",
+    "MongoDB",
+    "OpenSearch",
+    "ASP.NET",
+    "FastAPI",
+    "FlaskAPI",
+    "ReactJS",
+    "Pytorch",
+    "Scikit-learn",
+    "Tensorflow",
+    "Azure",
+    "AWS",
+    "Docker",
+    "Spark",
+    "Kafka"
+  ],
+  "goals": "To pursue a career as a Machine Learning Engineer, specializing in infrastructure development and model optimization.",
+  "experiences": [
+    "Developed high-performance RESTful APIs for a US-based pension payroll platform, managing 500 simultaneous users.",
+    "Boosted unit test coverage of the payroll application from 42% to over 80%.",
+    "Worked on data processing for water factory anomaly detection using Graph Neural Network.",
+    "Conducted research on beehive audio identification, improving accuracy for bee sound classification."
+  ]
+}

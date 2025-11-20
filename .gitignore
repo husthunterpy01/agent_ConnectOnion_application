@@ -8,3 +8,5 @@ co-vibecoding-principles-docs-contexts-all-in-one.md
 *.py[cod]
 __pycache__/
 todo.md
+frontend/node_modules/
+frontend/dist/

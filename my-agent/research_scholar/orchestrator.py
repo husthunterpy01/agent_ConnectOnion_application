@@ -7,6 +7,7 @@ from .agents import (
     build_ranker_agent,
     build_seeker_agent,
     build_tracker_agent,
+    build_university_match_agent,
     build_verifier_agent,
     build_writer_agent,
     DEFAULT_MODEL,
@@ -17,6 +18,7 @@ from .tools import (
     ranker_score_tool,
     seeker_search_tool,
     tracker_schedule_tool,
+    university_match_tool,
     verifier_checklist_tool,
     writer_materials_tool,
 )
@@ -34,6 +36,7 @@ class ResearchScholarOrchestrator:
         self.writer_agent = build_writer_agent(model)
         self.tracker_agent = build_tracker_agent(model)
         self.verifier_agent = build_verifier_agent(model)
+        self.university_agent = build_university_match_agent(model)
 
     def run(self, query: str, profile: StudentProfile, limit: int = 5) -> Dict[str, Any]:
         seeker_payload = {
@@ -68,6 +71,12 @@ class ResearchScholarOrchestrator:
         }
         verifier_result = verifier_checklist_tool(verifier_payload)
 
+        university_payload = {
+            "profile": profile.to_payload(),
+            "top_n": 3,
+        }
+        university_result = university_match_tool(university_payload)
+
         return {
             "query": query,
             "profile": profile.to_payload(),
@@ -77,5 +86,6 @@ class ResearchScholarOrchestrator:
             "writer": materials_result,
             "tracker": tracker_result,
             "verifier": verifier_result,
+            "universities": university_result,
         }
 

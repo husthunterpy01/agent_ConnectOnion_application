@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
-from .models import ScholarshipOpportunity
+from .models import ScholarshipOpportunity, UniversityProgram
 
 
 def load_demo_scholarships() -> List[ScholarshipOpportunity]:
@@ -61,6 +61,68 @@ def load_demo_scholarships() -> List[ScholarshipOpportunity]:
             effort_level="Low",
             description="Recognizes students maintaining high-impact OSS projects.",
             url="https://example.org/scholarships/rs-003",
+        ),
+    ]
+
+
+def load_demo_universities() -> List[UniversityProgram]:
+    """Return a small catalog of inclusive university programs."""
+    return [
+        UniversityProgram(
+            id="UNI-001",
+            name="Aurora Institute of Technology",
+            location="Australia",
+            programs=["Computer Science", "Human-Centered AI", "Software Engineering"],
+            demographics=["women", "first-generation", "rural"],
+            highlights=[
+                "Women in Emerging Tech full-ride scholarship",
+                "AI for social good research lab with community grants",
+                "Mentorship circle for first-generation founders",
+            ],
+            website="https://example.edu/aurora-tech",
+            tuition_support="Full tuition + $10K research stipend",
+        ),
+        UniversityProgram(
+            id="UNI-002",
+            name="Pacifica University",
+            location="New Zealand",
+            programs=["Data Science", "International Relations"],
+            demographics=["women", "pacific-islander"],
+            highlights=[
+                "Leadership incubator for women tackling climate justice",
+                "Co-op placements with APAC NGOs",
+                "Dedicated funding for first-generation students",
+            ],
+            website="https://example.edu/pacifica",
+            tuition_support="75% tuition waiver + paid co-op",
+        ),
+        UniversityProgram(
+            id="UNI-003",
+            name="Global Social Impact College",
+            location="Global (Remote)",
+            programs=["Product Design", "Public Policy", "AI Ethics"],
+            demographics=["any", "first-generation"],
+            highlights=[
+                "Remote-first bachelor's with community residencies",
+                "Scholarships for open-source maintainers",
+                "Partner accelerators for social impact startups",
+            ],
+            website="https://example.edu/gsic",
+            tuition_support="Sliding scale + stipend for OSS leaders",
+        ),
+        UniversityProgram(
+            id="UNI-004",
+            name="Summit University",
+            location="United States",
+            programs=["Computer Science", "Entrepreneurship"],
+            demographics=["women", "underrepresented-minority"],
+            highlights=[
+                "Summit Women in Computing Scholars program",
+                "Access to venture studio for edtech founders",
+                "Global exchange with partner labs in APAC",
+            ],
+            website="https://example.edu/summit",
+            tuition_support="$20K merit award + housing grant",
         ),
     ]
 

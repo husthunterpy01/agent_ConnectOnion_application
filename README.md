@@ -36,6 +36,7 @@ Orchestrator (Central Coordinator)
   ├── Ranker (Priority Scoring)
   ├── Writer (Application Materials)
   ├── Tracker (Deadline Management)
+  ├── UniversityMatch (Inclusive University Recs)
   └── Verifier (Quality Assurance)
 ```
 
@@ -48,6 +49,7 @@ graph TD
     B --> F[Writer]
     B --> G[Tracker]
     B --> H[Verifier]
+    B --> I[UniversityMatch]
 ```
 
 ### Agent Descriptions
@@ -93,6 +95,11 @@ graph TD
 - Checks requirement fulfillment
 - Quality assurance before submission
 - Ensures no missing documents
+
+**UniversityMatch**
+- Uses demographics, location, and interests to suggest inclusive programs
+- Highlights tuition support and mentoring ecosystems
+- Surfaces fit reasons (location match, demographic focus, major coverage)
 
 ### Data Flow
 ```
@@ -140,6 +147,60 @@ Orchestrator → User with ranked results
    python agent.py --output report.json
    ```
 
+### CV Parser Agent
+
+Convert an existing CV/resume PDF into a normalized profile JSON before running the rest of the swarm.
+
+```bash
+cd /home/martin/agent_ConnectOnion_application/my-agent
+python parsing_cv.py \
+  --pdf /absolute/path/to/cv.pdf \
+  --output profiles/generated_profile.json \
+  --model co/gpt-4o-mini
+```
+
+This script:
+1. Extracts raw text from the PDF.
+2. Calls the `llm_do()` helper from ConnectOnion for structured field extraction.
+3. Persists the resulting JSON so downstream agents (Matcher, Ranker, Writer, UniversityMatch, etc.) can reuse it.
+
+### University Match Recommender
+
+Once you have a student profile (from `parsing_cv.py` or manual JSON), run the main pipeline via `agent.py`. The orchestrator now appends `universities.recommendations` to the final report, which lists the top inclusive programs plus the reasoning for each match. Example snippet:
+
+```json
+"universities": {
+  "recommendations": [
+    {
+      "university": { "name": "Aurora Institute of Technology", "...": "..." },
+      "score": 90,
+      "fit_reasons": [
+        "Location alignment",
+        "Demographic programs for women, first-generation",
+        "Major available with targeted support"
+      ]
+    }
+  ]
+}
+```
+
+Use these outputs to prioritize direct outreach to partner universities or to inform scholarship targeting.
+
+### Web Dashboard (React)
+
+Visualize any `report.json` (from `agent.py --output`) with a lightweight React dashboard.
+
+```bash
+cd /home/martin/agent_ConnectOnion_application/frontend
+npm install          # first run only
+npm run dev          # http://localhost:5173
+```
+
+Features:
+- Upload your generated JSON or load the bundled sample to preview the UI.
+- View profile summary, ranked scholarships, university matches, and milestone notifications.
+- Upcoming deadlines (<=10 days) surface as alert cards so you can act before submissions close.
+
 ---
 
 ## Repository Layout
@@ -168,6 +229,7 @@ agent_ConnectOnion_application/
 | Application material drafting             | `writer_materials_tool`                            |
 | Deadline tracking & reminders             | `tracker_schedule_tool`                            |
 | QA / completeness verification            | `verifier_checklist_tool`                          |
+| Inclusive university matching             | `university_match_tool`                            |
 
 ---
 

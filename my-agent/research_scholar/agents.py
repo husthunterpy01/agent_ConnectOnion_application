@@ -3,10 +3,12 @@ from __future__ import annotations
 from connectonion import Agent
 
 from .tools import (
+    cv_parse_tool,
     matcher_filter_tool,
     ranker_score_tool,
     seeker_search_tool,
     tracker_schedule_tool,
+    university_match_tool,
     verifier_checklist_tool,
     writer_materials_tool,
 )
@@ -73,6 +75,24 @@ def build_verifier_agent(model: str = DEFAULT_MODEL) -> Agent:
         "scholarship-verifier",
         "Validate application packets and highlight missing artifacts.",
         verifier_checklist_tool,
+        model,
+    )
+
+
+def build_cv_parser_agent(model: str = DEFAULT_MODEL) -> Agent:
+    return build_agent(
+        "cv-parser",
+        "Extract structured student profiles from PDF resumes and save them.",
+        cv_parse_tool,
+        model,
+    )
+
+
+def build_university_match_agent(model: str = DEFAULT_MODEL) -> Agent:
+    return build_agent(
+        "university-matchmaker",
+        "Recommend inclusive university programs using demographics and interests.",
+        university_match_tool,
         model,
     )
 

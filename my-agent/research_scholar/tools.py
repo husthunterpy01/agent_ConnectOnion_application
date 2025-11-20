@@ -2,12 +2,20 @@ from __future__ import annotations
 
 import math
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Any, Dict, List
 
-from .data import load_demo_scholarships
-from .models import ApplicationMaterial, ScholarshipOpportunity, StudentProfile
+from .data import load_demo_scholarships, load_demo_universities
+from .models import (
+    ApplicationMaterial,
+    ScholarshipOpportunity,
+    StudentProfile,
+    UniversityProgram,
+)
+from .cv_parser import DEFAULT_CV_MODEL, parse_cv_to_json
 
 SCHOLARSHIP_DB = load_demo_scholarships()
+UNIVERSITY_DB = load_demo_universities()
 
 
 def _normalize(text: str) -> str:
@@ -208,4 +216,78 @@ def verifier_checklist_tool(payload: Dict[str, Any]) -> Dict[str, Any]:
         )
 
     return {"qa_reports": reports}
+
+
+def cv_parse_tool(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Parse a CV PDF on disk and persist the normalized student profile JSON."""
+    pdf_path_value = payload.get("pdf_path")
+    if not pdf_path_value:
+        raise ValueError("cv_parse_tool requires 'pdf_path' in the payload.")
+
+    pdf_path = Path(pdf_path_value)
+    output_path_value = payload.get("output_path", "profiles/generated_profile.json")
+    output_path = Path(output_path_value)
+    model = payload.get("model", DEFAULT_CV_MODEL)
+
+    profile_payload = parse_cv_to_json(pdf_path, output_path, model=model)
+    return {
+        "profile": profile_payload,
+        "output_path": str(output_path.resolve()),
+    }
+
+
+def university_match_tool(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Suggest inclusive university programs based on demographics and interests."""
+    profile_dict = payload.get("profile")
+    if not profile_dict:
+        raise ValueError("university_match_tool requires 'profile' in the payload.")
+
+    profile = StudentProfile.from_dict(profile_dict)
+    top_n = payload.get("top_n", 3)
+
+    profile_demographics = {
+        key: str(value).lower()
+        for key, value in profile.demographics.items()
+        if value
+    }
+    profile_interests = [interest.lower() for interest in profile.interests]
+
+    recommendations: List[Dict[str, Any]] = []
+    for uni in UNIVERSITY_DB:
+        uni_record = UniversityProgram.from_dict(uni.to_payload())
+        score = 50
+        reasons: List[str] = []
+
+        if uni_record.location.lower() == profile.location.lower() or "global" in uni_record.location.lower():
+            score += 15
+            reasons.append("Location alignment")
+
+        demo_matches = [
+            tag
+            for tag in uni_record.demographics
+            if tag in profile_demographics.values() or tag == "any"
+        ]
+        if demo_matches:
+            score += 20
+            reasons.append(f"Demographic programs for {', '.join(set(demo_matches))}")
+
+        if profile.major.lower() in (prog.lower() for prog in uni_record.programs):
+            score += 10
+            reasons.append("Major available with targeted support")
+
+        uni_programs_lower = [prog.lower() for prog in uni_record.programs]
+        if any(interest in uni_programs_lower for interest in profile_interests):
+            score += 5
+            reasons.append("Interest-aligned program tracks")
+
+        recommendations.append(
+            {
+                "university": uni_record.to_payload(),
+                "score": min(100, score),
+                "fit_reasons": reasons,
+            }
+        )
+
+    recommendations.sort(key=lambda entry: entry["score"], reverse=True)
+    return {"recommendations": recommendations[:top_n]}
 
